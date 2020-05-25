@@ -57,12 +57,8 @@ public class PessoaService {
     }
 
     public ResponseEntity<PessoaDto> atualizar(@RequestBody PessoaDto pessoaDto, @RequestParam Long id) throws Exception {
-
         Pessoa pessoa = ifExist(id);
-        pessoa.setNome(pessoaDto.getNome());
-        pessoa.setNascimento(pessoaDto.getNascimento());
-        repository.save(pessoa);
-
+        mapper.map(pessoa,PessoaDto.class);
         return ResponseEntity.ok(new PessoaDto(pessoa));
     }
 
