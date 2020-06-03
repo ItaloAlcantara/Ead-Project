@@ -27,7 +27,10 @@ public class PessoaDto {
         this.nascimento = pessoa.getNascimento();
     }
 
-    public static Page<PessoaDto> covert(Page<Pessoa> pessoas) {
-        return pessoas.map(PessoaDto::new);
+    public PessoaDto(String nome, Calendar nascimento) {
+        this.nome = nome;
+        this.nascimento = nascimento;
     }
+
+
 }
