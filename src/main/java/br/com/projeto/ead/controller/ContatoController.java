@@ -7,8 +7,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/contato")
@@ -29,7 +32,20 @@ public class ContatoController {
     }
 
     @PostMapping
-    public ResponseEntity<ContatoDto> cadastrar(ContatoDto contatoDto, UriComponentsBuilder uri){
+    @Transactional
+    public ResponseEntity<ContatoDto> cadastrar(@RequestBody @Valid ContatoDto contatoDto, UriComponentsBuilder uri){
         return service.cadastrar(contatoDto,uri);
+    }
+
+    @PutMapping("/{id}")
+    @Transactional
+    public ResponseEntity<ContatoDto> atualizar (@RequestBody @Valid ContatoDto contatoDto,  @PathVariable  Long id) throws Exception {
+        return service.atualizar(contatoDto,id);
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity deletar (@PathVariable Long id) throws Exception {
+        return service.deletar(id);
     }
 }

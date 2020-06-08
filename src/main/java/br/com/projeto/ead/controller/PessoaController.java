@@ -1,5 +1,6 @@
 package br.com.projeto.ead.controller;
 
+import br.com.projeto.ead.model.dto.ContatoDto;
 import br.com.projeto.ead.model.dto.PessoaDto;
 import br.com.projeto.ead.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class PessoaController {
     public PessoaDto detalhar(@PathVariable Long id) throws Exception {   return service.detalhar(id); }
 
     @PostMapping
-    public ResponseEntity<PessoaDto> cadastrar(@RequestBody @Valid PessoaDto pessoaDto, UriComponentsBuilder uri){
+    public ResponseEntity<PessoaDto> cadastrar(@RequestBody @Valid PessoaDto pessoaDto,UriComponentsBuilder uri){
         return service.cadastrar(pessoaDto,uri);
     }
 

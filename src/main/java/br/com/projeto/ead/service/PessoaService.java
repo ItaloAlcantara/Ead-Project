@@ -1,7 +1,10 @@
 package br.com.projeto.ead.service;
 
+import br.com.projeto.ead.model.Contato;
 import br.com.projeto.ead.model.Pessoa;
+import br.com.projeto.ead.model.dto.ContatoDto;
 import br.com.projeto.ead.model.dto.PessoaDto;
+import br.com.projeto.ead.repository.ContatoRepository;
 import br.com.projeto.ead.repository.PessoaRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +21,14 @@ public class PessoaService {
 
     @Autowired
     private PessoaRepository repository;
+    @Autowired
+    private ContatoRepository contatoRepository;
 
     @Autowired
     private DozerBeanMapper mapper;
+
+    private static final String DELETADO = "Registro deletado com sucesso!";
+    private static final String NOT_FOUND = "Registro não localizado";
 
     public Page<PessoaDto> lista (String nome,Pageable paginacao){
 
@@ -43,7 +51,7 @@ public class PessoaService {
 
     public ResponseEntity deletar(Long id) throws Exception{
         repository.delete(ifExist(id));
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(DELETADO);
     }
 
     public ResponseEntity<PessoaDto> atualizar(PessoaDto pessoaDto, Long id) throws Exception {
@@ -57,6 +65,6 @@ public class PessoaService {
     public Pessoa ifExist(Long id) throws Exception {
         if(repository.findById(id).isPresent())
             return repository.findById(id).get();
-        throw new Exception();
+        throw new Exception(NOT_FOUND);
     }
 }

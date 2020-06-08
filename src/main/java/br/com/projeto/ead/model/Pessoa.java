@@ -1,5 +1,7 @@
 package br.com.projeto.ead.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -7,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.List;
 
 @Entity
 @Getter
@@ -33,9 +36,8 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar nascimento;
 
-    public Pessoa(String nome,Calendar nascimento) {
-        this.nome = nome;
-        this.nascimento = nascimento;
-    }
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "pessoa",fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "pessoa-contato")
+    private List<Contato> contatos;
 
 }

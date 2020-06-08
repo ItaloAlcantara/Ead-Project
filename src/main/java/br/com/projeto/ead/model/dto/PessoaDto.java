@@ -1,5 +1,6 @@
 package br.com.projeto.ead.model.dto;
 
+import br.com.projeto.ead.model.Contato;
 import br.com.projeto.ead.model.Pessoa;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import org.springframework.data.domain.Page;
 
 import java.util.Calendar;
+import java.util.List;
 
 @Getter
 @Setter
@@ -21,16 +23,6 @@ public class PessoaDto {
 
     private Calendar nascimento;
 
-    public PessoaDto(Pessoa pessoa) {
-        this.id = pessoa.getId();
-        this.nome = pessoa.getNome();
-        this.nascimento = pessoa.getNascimento();
-    }
-
-    public PessoaDto(String nome, Calendar nascimento) {
-        this.nome = nome;
-        this.nascimento = nascimento;
-    }
-
+    private List<Contato> contatos;
 
 }

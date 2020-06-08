@@ -19,6 +19,7 @@ public class ContatoService {
     @Autowired
     private ContatoRepository repository;
 
+    @Autowired
     private DozerBeanMapper mapper;
 
     public Page<ContatoDto> listar (String telefone, String email, Pageable paginacao){
@@ -36,13 +37,9 @@ public class ContatoService {
     }
 
     public ResponseEntity<ContatoDto> cadastrar (ContatoDto contatoDto, UriComponentsBuilder builder){
-        repository.save(mapper.map(contatoDto,Contato.class));
 
-        URI uri =
-                builder
-                .path("/contato/{id}")
-                .buildAndExpand(contatoDto.getId())
-                .toUri();
+        repository.save(mapper.map(contatoDto,Contato.class));
+        URI uri = builder.path("/contato/{id}").buildAndExpand(contatoDto.getId()).toUri();
         return ResponseEntity.created(uri).body(contatoDto);
     }
 

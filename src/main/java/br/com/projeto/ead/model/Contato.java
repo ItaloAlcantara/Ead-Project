@@ -1,5 +1,7 @@
 package br.com.projeto.ead.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,4 +26,10 @@ public class Contato {
 
     @NotNull
     private String email;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pessoa_id")
+    @JsonBackReference("pessoa-contato")
+    private Pessoa pessoa;
+
 }
