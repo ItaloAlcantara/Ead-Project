@@ -2,6 +2,7 @@ package br.com.projeto.ead.service;
 
 import br.com.projeto.ead.model.Pessoa;
 import br.com.projeto.ead.model.dto.PessoaDto;
+import br.com.projeto.ead.model.dto.PessoaForm;
 import br.com.projeto.ead.repository.PessoaRepository;
 import org.dozer.DozerBeanMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +27,15 @@ public class PessoaService {
     @Autowired
     private DozerBeanMapper mapper;
 
-    public Page<PessoaDto> lista (@RequestParam(required = false) String nome, @PageableDefault (sort = "nome") Pageable paginacao){
+    public Page<PessoaDto> lista (String nome,Pageable paginacao){
 
-        if(nome.isEmpty()) {
+        if(nome.isEmpty())
             return  repository.findAll(paginacao).map(pessoa -> mapper.map(pessoa,PessoaDto.class));
-        }else {
-            Page<Pessoa> pessoas = repository.findByNome(nome);
-            return  repository.findByNome(nome).map(pessoa -> mapper.map(pessoa,PessoaDto.class));
-        }
+        return  repository.findByNome(nome,paginacao).map(pessoa -> mapper.map(pessoa,PessoaDto.class));
+
     }
 
-    public ResponseEntity<PessoaDto> cadastrar (@RequestBody @Valid PessoaDto pessoaDto, UriComponentsBuilder uriComponentsBuilder){
+    public ResponseEntity<PessoaDto> cadastrar (PessoaDto pessoaDto, UriComponentsBuilder uriComponentsBuilder){
 
         Pessoa pessoa = mapper.map(pessoaDto,Pessoa.class);
         repository.save(pessoa);
@@ -45,22 +44,22 @@ public class PessoaService {
         return ResponseEntity.created(uri).body(new PessoaDto(pessoa));
     }
 
-    public PessoaDto detalhar(@RequestParam Long id) throws Exception {
+    public PessoaDto detalhar(Long id) throws Exception {
 
         Pessoa pessoa = ifExist(id);
         return mapper.map(pessoa,PessoaDto.class);
     }
 
-    public ResponseEntity deletar(@RequestParam Long id) throws Exception{
+    public ResponseEntity deletar(Long id) throws Exception{
         repository.delete(ifExist(id));
         return ResponseEntity.ok().build();
     }
 
-    public ResponseEntity<PessoaDto> atualizar(@RequestBody PessoaDto pessoaDto, @RequestParam Long id) throws Exception {
+    public ResponseEntity<PessoaForm> atualizar(PessoaForm pessoaForm, Long id) throws Exception {
         Pessoa pessoa = ifExist(id);
-        mapper.map(pessoaDto,pessoa);
+        mapper.map(pessoaForm,pessoa);
         repository.save(pessoa);
-        return ResponseEntity.ok(new PessoaDto(pessoa));
+        return ResponseEntity.ok(mapper.map(pessoa,PessoaForm.class));
     }
 
 

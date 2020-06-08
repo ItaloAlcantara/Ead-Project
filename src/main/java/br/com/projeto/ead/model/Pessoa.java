@@ -14,12 +14,15 @@ import java.util.Calendar;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode
+@Builder
+@Table(name = "pessoa",indexes = @Index(name = "pk_pessoa_id",unique = true,columnList = "id"))
+@SequenceGenerator(name = "id", sequenceName = "SEQ_PESSOA", allocationSize = 1)
 public class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "id")
     private Long id;
 
     @NotNull(message = "Campo obrigatorio")
@@ -30,9 +33,9 @@ public class Pessoa implements Serializable {
     @Temporal(TemporalType.DATE)
     private Calendar nascimento;
 
-    public Pessoa(String nome,Calendar nascimento, Long id) {
+    public Pessoa(String nome,Calendar nascimento) {
         this.nome = nome;
         this.nascimento = nascimento;
-        this.id= id;
     }
+
 }
