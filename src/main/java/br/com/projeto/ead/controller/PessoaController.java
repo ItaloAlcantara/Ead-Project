@@ -1,7 +1,6 @@
 package br.com.projeto.ead.controller;
 
 import br.com.projeto.ead.model.dto.PessoaDto;
-import br.com.projeto.ead.model.dto.PessoaForm;
 import br.com.projeto.ead.service.PessoaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,8 +33,8 @@ public class PessoaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PessoaForm> atualizar (@RequestBody PessoaForm pessoaForm, @PathVariable Long id) throws Exception {
-        return service.atualizar(pessoaForm,id); }
+    public ResponseEntity<PessoaDto> atualizar (@RequestBody PessoaDto pessoaDto, @PathVariable Long id) throws Exception {
+        return service.atualizar(pessoaDto,id); }
 
     @DeleteMapping("/{id}")
     public ResponseEntity deletar (@PathVariable Long id) throws Exception { return service.deletar(id);}
